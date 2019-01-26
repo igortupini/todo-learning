@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../db');
-var errorHandler = require('../helpers');
 
 //Get All To-do's
 router.get('/',(req,res)=>{
