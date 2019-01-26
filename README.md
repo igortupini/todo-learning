@@ -1,8 +1,7 @@
 # Todo Learning
 Project to learn more about NodeJS and its frameworks.
 
-##Stack
-- NodeJS
+## Stack
+- NodeJS + Express
 - PostgreSQL
-- Git
 - Heroku
