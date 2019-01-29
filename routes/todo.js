@@ -1,21 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var app = express()
 var db = require('../db');
-
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
-  
-  app.get('/', function(req, res, next) {
-    // Handle the get for this route
-  });
-  
-  app.post('/', function(req, res, next) {
-   // Handle the post for this route
-  });
 
 //Get All To-do's
 router.get('/',(req,res)=>{
@@ -47,18 +32,18 @@ router.get('/:id',(req,res)=>{
 
 //Post new to-do
 router.post('/',(req,res)=>{
-    
+
     var data = {
         title: req.body.title,
         content: req.body.content,
         checked: false,
-        createdat: new Date()
+        //createdat: 
     }
     
     if (data.title == '') data.title = 'Untitled'
     if (data.content == '') data.content = 'Empty'
 
-    db.query('INSERT INTO tasks(title,content,createdat,checked) VALUES($1,$2,$3,$4)',[data.title,data.content,data.createdat,data.checked],(err,result)=>{
+    db.query('INSERT INTO tasks(title,content,checked) VALUES($1,$2,$3)',[data.title,data.content,data.checked],(err,result)=>{
         if(err){
             console.error(err);
             return res.status(400).json({success: false,data: err});
@@ -79,7 +64,7 @@ router.delete('/:id',(req,res) => {
 })
 
 //Toggle Todo
-router.post('/toggle/:id',(req,res) => {
+router.patch('/:id',(req,res) => {
     let { id } = req.params
     console.log(id)
     db.query('UPDATE tasks SET checked = NOT checked WHERE id = $1',[id],(err, result) => {
