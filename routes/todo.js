@@ -10,7 +10,7 @@ router.get('/',(req,res)=>{
             return res.status(400).json({success: false, data: err});
         };
 
-        return res.json({success: true, data: result.rows});
+        return res.json(result.rows);
     });
 });
 
@@ -45,9 +45,20 @@ router.post('/',(req,res)=>{
             return res.status(400).json({success: false,data: err});
             };
 
-        return res.json({success: true, data: result});   
+        return res.status(201).send({message: 'Created'});   
     });
 });
+
+//Delete Todo
+router.delete('/:id',(req,res) => {
+    let { id } = req.params
+    console.log(id)
+    db.query('DELETE FROM tasks WHERE tasks.id = $1',[id],(err, result) => {
+        if (err) return res.status(400).json({success: false,data: err})
+        console.log(result)
+        return res.status(204).send({message: 'Deleted'})
+    })
+})
 
 //Exports
 module.exports = router;
